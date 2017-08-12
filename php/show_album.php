@@ -1,19 +1,11 @@
 <?php
   session_start();
-
-  require_once('database.php');
-  database::connect('localhost', 'remi', 'root', 'admin');
+  include('functions.php');
+  db_con("");
+  check_private($_GET['album']);
 
   $album = database::queryOne('SELECT * FROM album WHERE id = ' .$_GET['album']);
   $username = database::querySingle('SELECT username FROM user WHERE id = ' .$album['user_id']);
-
-  if($album['public'] == 0) {
-    if(!isset($_SESSION['username']) || $album['user_id'] != $_SESSION['user_id']) {
-      header('location:/');
-    }
-  }
-
-  $creator = database::querySingle('SELECT username FROM user WHERE id = ' .$album['user_id']);
 ?>
 
 <!DOCTYPE html>
@@ -33,7 +25,7 @@
         <ul class="nav navbar-nav">
           <li><a href="/"><span class="glyphicon glyphicon-home"></span> Home</a></li>
           <li class="<?php echo isset($_SESSION['username']) ? "" : "hidden"; ?>"><a href="../php/my_albums.php"><span class="glyphicon glyphicon-picture"></span> My Albums</a></li>
-          <li class="<?php echo $_SESSION['username'] == $creator ? "" : "hidden" ?>"><a href="edit_album.php?album=<?php echo $album['id'] ?>" style="color: #0000e6;"><span class="glyphicon glyphicon-pencil"></span> Edit</a></li>
+          <li class="<?php echo $_SESSION['username'] == $username ? "" : "hidden" ?>"><a href="edit_album.php?album=<?php echo $album['id'] ?>" style="color: #0000e6;"><span class="glyphicon glyphicon-pencil"></span> Edit</a></li>
         </ul>
 
         <ul class="nav navbar-nav navbar-right">
@@ -49,21 +41,7 @@
       <div class="row">
         <?php
           $dir = "../users/" .$username ."/" .$album['name'];
-
-          if(is_dir($dir)) {
-            if($odir = opendir($dir)) {
-              while(($photo = readdir($odir)) != false) {
-                if($photo != "." && $photo != "..") {
-                  echo '<div class="col-md-4">
-                    <a class="thumbnail" href="" data-toggle="modal" data-target="#lightbox">
-                      <img alt="" class="img-responsive" src="' .$dir ."/" .$photo .'" style="height: 300px;">
-                    </a>
-                  </div>';
-                }
-              }
-              closedir($odir);
-            }
-          }
+          load_images($dir);
         ?>
       </div>
 

@@ -1,16 +1,10 @@
 <?php
   session_start();
-
-  require_once('database.php');
-  database::connect('localhost', 'remi', 'root', 'admin');
   include('functions.php');
+  db_con("");
+  check_logged();
 
-  $album = database::queryOne('SELECT * FROM album WHERE id = ' .$_GET['album']);
-  $creator = database::querySingle('SELECT username FROM user WHERE id = ' .$album['user_id']);
-
-  if(!isset($_SESSION['username']) || $_SESSION['username'] != $creator) {
-    header('location:/');
-  }
+  $album = database::queryOne('SELECT * FROM album WHERE id =' .$_GET['album']);
 ?>
 
 <!DOCTYPE html>
@@ -50,7 +44,7 @@
             <label><input type="radio" name="radio" value="public" <?php echo $album['public'] == 1 ? "checked" : "" ?>> Public</label>
             <label><input type="radio" name="radio" value="private" <?php echo $album['public'] == 1 ? "" : "checked" ?>> Private</label>
           <button type="submit" class="btn btn-success" name="update"><span class="glyphicon glyphicon-ok"></span> Update</button>
-          <button type="submit" class="btn btn-danger" name="cancel"><span class="glyphicon glyphicon-remove"></span> Cancel</button>
+          <a href="show_album.php?album=<?php echo $album['id'] ?>" class="btn btn-danger"><span class="glyphicon glyphicon-remove"></span> Cancel</a>
           <button type="submit" class="btn btn-danger" name="delete"><span class="glyphicon glyphicon-trash"></span> Remove</button>
         </div>
       </form>

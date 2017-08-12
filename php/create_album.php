@@ -1,13 +1,8 @@
 <?php
   session_start();
-
-  if(!isset($_SESSION['username'])) {
-    header('location:/');
-  }
-
-  require_once('database.php');
-  database::connect('localhost', 'remi', 'root', 'admin');
   include('functions.php');
+  db_con("");
+  check_logged();
 ?>
 
 <!DOCTYPE html>
@@ -48,14 +43,14 @@
             <label><input type="radio" name="radio" value="public" checked> Public</label>
             <label><input type="radio" name="radio" value="private"> Private</label>
           <button type="submit" class="btn btn-success" name="create"><span class="glyphicon glyphicon-ok"></span> Create</button>
-          <button type="submit" class="btn btn-danger" name="cancel"><span class="glyphicon glyphicon-remove"></span> Cancel</button>
+          <a href="my_albums.php" class="btn btn-danger"><span class="glyphicon glyphicon-remove"></span> Cancel</a>
         </div>
       </form>
     </div>
 
     <?php
       if(isset($_POST['create'])) {
-        $name = htmlspecialchars($_POST['name']);
+        $name = validate($_POST['name']);
 
         if(strlen($name) < 4 || sizeof($_FILES['images']['name']) == 0) {
           echo '<div class="alert alert-danger" style="margin-top: 5px;">Enter <strong>album name</strong> (at least 4 characters long) and choose at least <strong>1 picture</strong> to upload!</div>';

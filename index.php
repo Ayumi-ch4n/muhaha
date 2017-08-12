@@ -1,8 +1,7 @@
 <?php
   session_start();
-
-  require_once('php/database.php');
-  database::connect('localhost', 'remi', 'root', 'admin');
+  include('php/functions.php');
+  db_con("php/");
 ?>
 
 <!DOCTYPE html>
@@ -38,21 +37,7 @@
         <?php
           $numberOfAlbums = database::querySingle('SELECT COUNT(*) FROM album WHERE public = 1');
           $listOfAlbums = database::queryAll('SELECT * FROM album WHERE public = 1');
-
-          for($i = 0; $i < $numberOfAlbums; $i++) {
-            $username = database::querySingle('SELECT username FROM user WHERE id = ' .$listOfAlbums[$i]['user_id']);
-            $img = glob('users/'  .$username .'/' .$listOfAlbums[$i]['name'] .'/*.jpg');
-            $imga = array_rand($img);
-
-            echo '<div class="col-md-4">
-              <a class="thumbnail" href="php/show_album.php?album=' .$listOfAlbums[$i]['id'] .'">
-                <img alt="" class="img-responsive"" src="' .$img[$imga] .'" style="height: 300px;">
-                <div class="caption text-center">
-                  <h4><strong>' .$listOfAlbums[$i]['name'] .'</strong></h4>
-                </div>
-              </a>
-            </div>';
-          }
+          load_albums($numberOfAlbums, $listOfAlbums, "", "php/", false);
         ?>
       </div>
     </div>

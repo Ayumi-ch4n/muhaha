@@ -1,12 +1,8 @@
 <?php
   session_start();
-
-  if(!isset($_SESSION['username'])) {
-    header('location:/');
-  }
-
-  require_once('database.php');
-  database::connect('localhost', 'remi', 'root', 'admin');
+  include('functions.php');
+  db_con("");
+  check_logged();
 ?>
 
 <!DOCTYPE html>
@@ -41,20 +37,7 @@
         <?php
           $numberOfAlbums = database::querySingle('SELECT COUNT(*) FROM album WHERE user_id =' .$_SESSION['user_id']);
           $listOfAlbums = database::queryAll('SELECT * FROM album WHERE user_id =' .$_SESSION['user_id']);
-
-          for($i = 0; $i < $numberOfAlbums; $i++) {
-            $img = glob('../users/'  .$_SESSION['username'] .'/' .$listOfAlbums[$i]['name'] .'/*.jpg');
-            $imga = array_rand($img);
-
-            echo '<div class="col-md-4">
-              <a class="thumbnail" href="show_album.php?album=' .$listOfAlbums[$i]['id'] .'">
-                <img alt="" class="img-responsive"" src="' .$img[$imga] .'" style="height: 300px;">
-                <div class="caption text-center">
-                  <h4><strong>' .$listOfAlbums[$i]['name'] .'</strong></h4>
-                </div>
-              </a>
-            </div>';
-          }
+          load_albums($numberOfAlbums, $listOfAlbums, "../", "", $_SESSION['username']);
         ?>
       </div>
     </div>

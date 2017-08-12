@@ -1,13 +1,8 @@
 <?php
   session_start();
-
-  if(isset($_SESSION['username'])) {
-    session_destroy();
-  }
-
-  require_once('database.php');
-  database::connect('localhost', 'remi', 'root', 'admin');
   include('functions.php');
+  db_con("");
+  check_not_logged();
 ?>
 
 <!DOCTYPE html>
