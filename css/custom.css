@@ -1,0 +1,18 @@
+body {
+  background-color: #f2f2f2;
+}
+
+.reg_log_form {
+  max-width: 350px;
+  margin: auto;
+}
+
+.reg_log_alert {
+  max-width: 350px;
+  margin: 10px auto;
+}
+
+#lightbox .modal-content {
+    display: inline-block;
+    text-align: center;
+}
