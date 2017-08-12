@@ -2,7 +2,7 @@
   session_start();
   include('functions.php');
   db_con("");
-  check_not_logged();
+  logged();
 ?>
 
 <!DOCTYPE html>

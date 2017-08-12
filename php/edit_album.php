@@ -2,7 +2,7 @@
   session_start();
   include('functions.php');
   db_con("");
-  check_logged();
+  not_logged();
 
   $album = database::queryOne('SELECT * FROM album WHERE id =' .$_GET['album']);
 ?>

@@ -24,10 +24,10 @@
         </ul>
 
         <ul class="nav navbar-nav navbar-right">
-          <li class="<?php echo isset($_SESSION['username']) ? "hidden" : ""; ?>"><a href="php/login.php"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
-          <li class="<?php echo isset($_SESSION['username']) ? "hidden" : ""; ?>"><a href="php/register.php"><span class="glyphicon glyphicon-user"></span> Register</a></li>
-          <li class="<?php echo isset($_SESSION['username']) ? "" : "hidden"; ?>"><p class="navbar-text">Signed in as <?php echo $_SESSION['username'] ?></p></li>
-          <li class="<?php echo isset($_SESSION['username']) ? "" : "hidden"; ?>"><a href="php/logout.php"><span class="glyphicon glyphicon-log-out"></span> Logout</a></li>
+          <li class="<?php echo check_logged() ? "hidden" : ""; ?>"><a href="php/login.php"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
+          <li class="<?php echo check_logged() ? "hidden" : ""; ?>"><a href="php/register.php"><span class="glyphicon glyphicon-user"></span> Register</a></li>
+          <li class="<?php echo check_logged() ? "" : "hidden"; ?>"><p class="navbar-text">Signed in as <?php echo $_SESSION['username'] ?></p></li>
+          <li class="<?php echo check_logged() ? "" : "hidden"; ?>"><a href="php/logout.php"><span class="glyphicon glyphicon-log-out"></span> Logout</a></li>
         </ul>
       </div>
     </nav>

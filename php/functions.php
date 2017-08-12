@@ -12,13 +12,19 @@
   }
 
   function check_logged() {
-    if(!isset($_SESSION['username'])) {
+    if(isset($_SESSION['username'])) {
+      return true;
+    }
+  }
+
+  function logged() {
+    if(isset($_SESSION['username'])) {
       header('location:/');
     }
   }
 
-  function check_not_logged() {
-    if(isset($_SESSION['username'])) {
+  function not_logged() {
+    if(!isset($_SESSION['username'])) {
       header('location:/');
     }
   }
